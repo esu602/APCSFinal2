@@ -21,7 +21,7 @@ public class DrawingSurface extends PApplet {
 		board = new Grid();
 
 		
-		music = new AudioClip("music" + System.getProperty("fileseparator") + "");
+		music = new AudioClip("music" + System.getProperty("file.separator") + "tibsun");
 	}
 	
 	// The statements in the setup() function 
