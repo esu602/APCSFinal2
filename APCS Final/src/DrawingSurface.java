@@ -4,6 +4,7 @@ import javafx.scene.media.*;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
+import java.nio.file.Paths;
 
 import processing.core.PApplet;
 
@@ -14,14 +15,14 @@ public class DrawingSurface extends PApplet {
 	private Grid board;
 	
 	private AudioClip music;
-	
+	boolean isPlaying = false;
 	
 	
 	public DrawingSurface() {
 		board = new Grid();
 
 		
-		music = new AudioClip("music" + System.getProperty("file.separator") + "menu");
+		music = new AudioClip(Paths.get("music/halo3.mp3").toUri().toString());
 		music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
 	}
 	
@@ -36,6 +37,13 @@ public class DrawingSurface extends PApplet {
 	// sequence and after the last line is read, the first 
 	// line is executed again.
 	public void draw() { 
+		
+		if (!isPlaying) {
+			music.play();
+			System.out.println("hi");
+			isPlaying = true;
+		}
+
 		
 		background(255);   // Clear the screen with a white background
 		fill(0);
