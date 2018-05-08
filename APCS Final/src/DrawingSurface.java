@@ -39,11 +39,12 @@ public class DrawingSurface extends PApplet {
 	public void draw() { 
 		
 		if (!isPlaying) {
+			music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
 			music.play();
 			System.out.println("hi");
 			isPlaying = true;
 			
-			music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
+
 		}
 
 		
