@@ -16,6 +16,8 @@ public class DrawingSurface extends PApplet {
 	private int speed;
 	private Point prevToggle;
 	
+	private AudioClip music;
+	
 	private final int MAX_SPEED = 480, MIN_SPEED = 15;
 	
 	

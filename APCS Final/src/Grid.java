@@ -97,8 +97,7 @@ public class Grid {
 		float cellWidth = width / p1Grid.length;
 		float cellHeight = height / p1Grid[0].length;
 		marker.stroke(0);
-		
-		if (turnCount % 8 == 1) {//displaying P1's home grid
+	
 			for (int i = 0; i < p1Grid.length; i++) {
 				for (int j = 0; j < p1Grid[i].length; j++) {
 					if (p1Grid[i][j] == -1) {//if it's empty, it'll be white
@@ -120,80 +119,6 @@ public class Grid {
 			
 			
 			
-		}
-		
-		else if ((turnCount % 8 == 2) || (turnCount % 8 == 3)) {//displaying P1's targeting grid when firing and reviewing
-			
-			for (int i = 0; i < p1TargetGrid.length; i++) {
-				for (int j = 0; j < p1TargetGrid[i].length; j++) {
-					if (p1TargetGrid[i][j] == -1) {//if it's uncovered, the square will be white
-						marker.fill(255);
-					}
-					else if (p1TargetGrid[i][j] == 1){//if it was a hit, the square will be red
-						marker.fill(255, 0, 0);
-					}
-					else if (p1TargetGrid[i][j] == 2)//if it was a miss, the square will be yellow
-						{
-						marker.fill(255, 255, 0);
-							}
-					marker.rect(cellX, cellY, cellWidth, cellHeight);
-					cellX += cellWidth;
-				}
-				cellX = x;
-				cellY += cellHeight;
-			}
-			
-			
-		}
-		
-		else if ((turnCount % 8 == 4) || (turnCount % 8 == 0)) {//don't draw anything on the grid for privacy reasons during transition turns
-			
-			
-		}
-		
-		else if (turnCount % 8 == 5) {//displaying P2's home grid
-			for (int i = 0; i < p2Grid.length; i++) {
-				for (int j = 0; j < p2Grid[i].length; j++) {
-					if (p2Grid[i][j] == -1) {//if it's empty, it'll be white
-						marker.fill(255);
-					}
-					else if (p2Grid[i][j] == 1){//if it contains a ship, it'll be cyan
-						marker.fill(0, 255, 255);
-					}
-					else if (p2Grid[i][j] == 2)//if it contains a destroyed ship, it'll be red 
-						{
-						marker.fill(255, 0, 0);
-							}
-					marker.rect(cellX, cellY, cellWidth, cellHeight);
-					cellX += cellWidth;
-				}
-				cellX = x;
-				cellY += cellHeight;
-			}
-			
-		}
-		
-		else if ((turnCount % 8 == 6) || (turnCount % 8 == 7)) {//displaying P2's target grid
-			for (int i = 0; i < p2TargetGrid.length; i++) {
-				for (int j = 0; j < p2TargetGrid[i].length; j++) {
-					if (p2TargetGrid[i][j] == -1) {//if it's uncovered, the square will be white
-						marker.fill(255);
-					}
-					else if (p2TargetGrid[i][j] == 1){//if it was a hit, the square will be red
-						marker.fill(255, 0, 0);
-					}
-					else if (p2TargetGrid[i][j] == 2)//if it was a miss, the square will be yellow
-						{
-						marker.fill(255, 255, 0);
-							}
-					marker.rect(cellX, cellY, cellWidth, cellHeight);
-					cellX += cellWidth;
-				}
-				cellX = x;
-				cellY += cellHeight;
-			}
-			
-		}
 	
 	}
 
