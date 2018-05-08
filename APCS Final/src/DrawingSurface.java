@@ -12,20 +12,16 @@ import processing.core.PApplet;
 public class DrawingSurface extends PApplet {
 
 	private Grid board;
-	private int speed;
-	private Point prevToggle;
 	
 	private AudioClip music;
 	
-	private final int MAX_SPEED = 480, MIN_SPEED = 15;
 	
 	
 	public DrawingSurface() {
 		board = new Grid();
-		speed = 120;
-		prevToggle = null;
+
 		
-		
+		music = new AudioClip("music" + System.getProperty("fileseparator") + "");
 	}
 	
 	// The statements in the setup() function 
@@ -101,15 +97,7 @@ public class DrawingSurface extends PApplet {
 	
 	
 	public void mousePressed() {
-		if (mouseButton == LEFT) {
-			Point click = new Point(mouseX,mouseY);
-			float dimension = height;
-			Point cellCoord = board.clickToIndex(click,0,0,dimension,dimension);
-			if (cellCoord != null) {
-				board.toggleCell(cellCoord.x, cellCoord.y);
-				prevToggle = cellCoord;
-			}
-		} 
+
 	}
 	
 
