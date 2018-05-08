@@ -12,14 +12,14 @@ import processing.core.PApplet;
 
 public class DrawingSurface extends PApplet {
 
-	private Grid board;
+	private GridView board;
 	
 	private AudioClip music;
 	boolean isPlaying = false;
 	
 	
 	public DrawingSurface() {
-		board = new Grid();
+		board = new GridView();
 
 		
 		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
@@ -39,9 +39,8 @@ public class DrawingSurface extends PApplet {
 	public void draw() { 
 		
 		if (!isPlaying) {
-			music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
+
 			music.play();
-			System.out.println("hi");
 			isPlaying = true;
 			
 
