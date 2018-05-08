@@ -12,7 +12,6 @@ import processing.core.PApplet;
 public class DrawingSurface extends PApplet {
 
 	private Grid board;
-	private int runCount;
 	private int speed;
 	private Point prevToggle;
 	
@@ -23,9 +22,10 @@ public class DrawingSurface extends PApplet {
 	
 	public DrawingSurface() {
 		board = new Grid();
-		runCount = -1;
 		speed = 120;
 		prevToggle = null;
+		
+		
 	}
 	
 	// The statements in the setup() function 
