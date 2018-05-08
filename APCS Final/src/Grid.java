@@ -6,69 +6,21 @@ import java.util.Scanner;
 
 import processing.core.PApplet;
 
-/*
-
-	Represents a very simplified game of Battleship.
-
-	Coded by: Evan Su
-	Modified on: 1/19/18
-
-*/
 
 public class Grid {
 	
 	private int p1Grid[][];
-	private int p1TargetGrid[][];
-	private int p2Grid[][];
-	private int p2TargetGrid[][];
-	
-	private int turnCount = 1;
-	
-	private int p1Score;
-	private int p2Score;
 
 	// Constructs an empty grid
 	public Grid() {
 		p1Grid = new int[10][10];
-		p1TargetGrid = new int [10][10];
-		p2Grid = new int [10][10];
-		p2TargetGrid = new int [10][10];
-		
-		//For player grids: -1 is empty, 1 contains a ship, 2 contains a destroyed ship
-		//For targeting grids: -1 is uncovered, 1 is a hit, 2 is a miss.
-		
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
+		for (int i = 0; i < p1Grid.length; i++) {
+			for (int j = 0; j < p1Grid[0].length; j++) {
 				p1Grid[i][j] = -1;
-				p1TargetGrid[i][j] = -1;
-				
-				p2Grid[i][j] = -1;
-				p2TargetGrid[i][j] = -1;
 			}
-		}
-		
-		for (int i = 0; i < 40; i++) {//randomly fills in 40 squares as containing ships for both player grids
 				
-				int x = (int) (Math.random() * 10);
-				int y = (int) (Math.random() * 10);
-				if (p1Grid[x][y] != 1) {
-					p1Grid[x][y] = 1;
-				}
-				else i--;
-			
-		}
-		
-		for (int i = 0; i < 40; i++) {
-
-					int x2 = (int) (Math.random() * 10);
-					int y2 = (int) (Math.random() * 10);
-					if (p2Grid[x2][y2] != 1) {
-						p2Grid[x2][y2] = 1;
-					}
-					else i--;
 		}
 	}
-
 	// Constructs the grid defined in the file specified
 	/*public GridGame(String filename) {
 		p1Grid = new boolean[20][20];
@@ -153,44 +105,10 @@ public class Grid {
 	}
 	
 	public void toggleCell(int i, int j) {
-		int turnMod = turnCount % 8;
-		if ((turnMod == 1) || (turnMod == 3) || (turnMod == 4) || (turnMod == 5)|| (turnMod == 7) || (turnMod == 0)) {//
-			turnCount++; //go to the next turn, they aren't supposed to do anything
-		}
-		else if (turnMod == 2) {//if player 1 is looking at their target grid
-			if (p1TargetGrid[i][j] == -1) {//if they click an empty square
-				if (p2Grid[i][j] == 1) { //if a ship exists in that spot
-					p1TargetGrid[i][j] = 1; //it's a hit
-					p2Grid[i][j] = 2; //p2's ship is destroyed
-				}
-				else if (p2Grid[i][j] == -1) {//if a ship doesn't exist in that spot
-					p1TargetGrid[i][j] = 2; //it's a miss
-				}
-			}
-			
-			turnCount++;
-		}
-
-		else if (turnMod == 6) {//if player 2 is looking at their target grid
-			if (p2TargetGrid[i][j] == -1) {//if they click an empty square
-				if (p1Grid[i][j] == 1) { //if a ship exists in that spot
-					p2TargetGrid[i][j] = 1; //it's a hit
-					p1Grid[i][j] = 2; //p2's ship is destroyed
-				}
-				else if (p1Grid[i][j] == -1) {//if a ship doesn't exist in that spot
-					p2TargetGrid[i][j] = 2; //it's a miss
-				}
-			}
-			
-			turnCount++;
-		}
 		
 
 	}
 
-	public int getTurn() {
-		return turnCount;
-	}
 	
 	
 	

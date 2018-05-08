@@ -22,8 +22,8 @@ public class DrawingSurface extends PApplet {
 		board = new Grid();
 
 		
-		music = new AudioClip(Paths.get("music/halo3.mp3").toUri().toString());
-		music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
+		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
+
 	}
 	
 	// The statements in the setup() function 
@@ -42,6 +42,8 @@ public class DrawingSurface extends PApplet {
 			music.play();
 			System.out.println("hi");
 			isPlaying = true;
+			
+			music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
 		}
 
 		
