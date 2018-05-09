@@ -45,9 +45,8 @@ public class GridView extends PApplet{
 	}*/
 
 	public void setup() {
-		player = loadImage(Paths.get("sprites/bug.gif").toUri().toString());
-		System.out.println("hi");
-
+		player = loadImage(sketchPath("sprites/bug.gif"));
+		System.out.println(player);
 	}
 	
 	
@@ -62,7 +61,7 @@ public class GridView extends PApplet{
 	 * @param height The pixel height of the grid drawing.
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) {
-		
+		System.out.println("hi");
 		float cellX = x;
 		float cellY = y;
 		
@@ -84,10 +83,9 @@ public class GridView extends PApplet{
 					
 					if (grids.get(currentGrid).getCell(i,  j) == 2)//if it contains a player 
 						{
-						//image(player, cellX, cellY);
 						marker.fill(75, 0, 130); //purple
 						marker.rect(cellX, cellY, cellWidth, cellHeight);
-						
+						image(player, cellX, cellY);
 							}
 
 					cellX += cellWidth;
