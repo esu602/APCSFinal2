@@ -22,7 +22,7 @@ public class DrawingSurface extends PApplet {
 		board = new GridView();
 
 		
-		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
+		music = new AudioClip(Paths.get("music/tibdawn.mp3").toUri().toString());
 
 	}
 	
@@ -30,6 +30,8 @@ public class DrawingSurface extends PApplet {
 	// execute once when the program begins
 	public void setup() {
 		//size(0,0,PApplet.P3D);
+		System.out.println("hi");
+		board.setup();
 	}
 	
 	// The statements in draw() are executed until the 

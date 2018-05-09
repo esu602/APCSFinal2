@@ -2,11 +2,13 @@ import java.awt.Point;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.Scanner;
 
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /*
  * This class draws the good ol'fashioned grid display where the player can see where they are, what's around them, etc.
@@ -14,11 +16,11 @@ import processing.core.PApplet;
  * It holds an array of Grids that it can switch between.
  * The UI is also programmed into this class.
  */
-public class GridView {
+public class GridView extends PApplet{
 	
 	private ArrayList<Grid> grids;
 	
-	private int p1Grid[][];
+	private int p1Grid[][]; //not used
 	
 	public static final int GRIDSIZE = 10; //length/height of the grid
 	
@@ -26,11 +28,14 @@ public class GridView {
 	public static final int PLAYER = 1; //value for a player
 	
 	private int currentGrid = 0;
+	
+	private PImage player;
 
 	// Constructs an empty grid
 	public GridView() {
 		grids = new ArrayList<Grid>();
 		grids.add(new Grid());
+		
 
 	}
 	// Constructs the grid defined in the file specified
@@ -40,7 +45,9 @@ public class GridView {
 	}*/
 
 	public void setup() {
-		
+		player = loadImage(Paths.get("sprites/bug.gif").toUri().toString());
+		System.out.println("hi");
+
 	}
 	
 	
@@ -55,6 +62,7 @@ public class GridView {
 	 * @param height The pixel height of the grid drawing.
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) {
+		
 		float cellX = x;
 		float cellY = y;
 		
@@ -66,15 +74,22 @@ public class GridView {
 				for (int j = 0; j < GRIDSIZE; j++) {
 					if (grids.get(currentGrid).getCell(i,  j) == 0) {//if it's empty, it'll be white
 						marker.fill(255);
+						marker.rect(cellX, cellY, cellWidth, cellHeight);
 					}
-					else if (grids.get(currentGrid).getCell(i,  j) == 1){//if it contains a player
-						
-					}
-					else if (grids.get(currentGrid).getCell(i,  j) == 2)//if it contains a vendor? 
-						{
 
+					
+					if (grids.get(currentGrid).getCell(i,  j) == 1){//if it contains a vendor?
+					}
+				
+					
+					if (grids.get(currentGrid).getCell(i,  j) == 2)//if it contains a player 
+						{
+						//image(player, cellX, cellY);
+						marker.fill(75, 0, 130); //purple
+						marker.rect(cellX, cellY, cellWidth, cellHeight);
+						
 							}
-					marker.rect(cellX, cellY, cellWidth, cellHeight);
+
 					cellX += cellWidth;
 				}
 				cellX = x;

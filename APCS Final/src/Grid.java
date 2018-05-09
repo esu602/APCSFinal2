@@ -6,7 +6,7 @@ public class Grid {
 	private int board[][];
 	
 	public Grid() { //Creates an empty grid, good for testing
-		//for now it'll just create an empty board
+		//for now it'll just create an empty board with one player
 		board = new int[GridView.GRIDSIZE][GridView.GRIDSIZE];
 		
 		for (int i = 0; i < board.length; i++) {
@@ -15,6 +15,7 @@ public class Grid {
 			}
 				
 		}
+		board[0][0] = 2;
 		
 	}
 	
