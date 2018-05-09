@@ -18,9 +18,9 @@ import processing.core.PImage;
  */
 public class GridView extends PApplet{
 	
-	private ArrayList<Grid> grids;
+	private ArrayList<int[][]> grids;
 	
-	private int p1Grid[][]; //not used
+	private int p1Grid[][];
 	
 	public static final int GRIDSIZE = 10; //length/height of the grid
 	
@@ -33,8 +33,8 @@ public class GridView extends PApplet{
 
 	// Constructs an empty grid
 	public GridView() {
-		grids = new ArrayList<Grid>();
-		grids.add(new Grid());
+		grids = new ArrayList<int[][]>();
+		grids.add(new int[GRIDSIZE][GRIDSIZE]);
 		
 
 	}
@@ -61,7 +61,7 @@ public class GridView extends PApplet{
 	 * @param height The pixel height of the grid drawing.
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) {
-		System.out.println("hi");
+
 		float cellX = x;
 		float cellY = y;
 		
@@ -71,17 +71,17 @@ public class GridView extends PApplet{
 	
 			for (int i = 0; i < GRIDSIZE; i++) {
 				for (int j = 0; j < GRIDSIZE; j++) {
-					if (grids.get(currentGrid).getCell(i,  j) == 0) {//if it's empty, it'll be white
+					if (grids.get(currentGrid)[i][j] == 0) {//if it's empty, it'll be white
 						marker.fill(255);
 						marker.rect(cellX, cellY, cellWidth, cellHeight);
 					}
 
 					
-					if (grids.get(currentGrid).getCell(i,  j) == 1){//if it contains a vendor?
+					if (grids.get(currentGrid)[i][j] == 1){//if it contains a vendor?
 					}
 				
 					
-					if (grids.get(currentGrid).getCell(i,  j) == 2)//if it contains a player 
+					if (grids.get(currentGrid)[i][j] == 2)//if it contains a player 
 						{
 						marker.fill(75, 0, 130); //purple
 						marker.rect(cellX, cellY, cellWidth, cellHeight);
@@ -129,9 +129,12 @@ public class GridView extends PApplet{
 		return answer;
 	}
 	
-	public void toggleCell(int i, int j) {
-		
-
+	public int getState(int i, int j) {
+		return grids.get(currentGrid)[i][j];
+	}
+	
+	public void setState (int i, int j, int newVal) {
+		grids.get(currentGrid)[i][j] = newVal;
 	}
 
 	
