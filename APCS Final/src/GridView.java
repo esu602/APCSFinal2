@@ -85,7 +85,7 @@ public class GridView extends PApplet{
 						{
 						marker.fill(75, 0, 130); //purple
 						marker.rect(cellX, cellY, cellWidth, cellHeight);
-						image(player, cellX, cellY);
+						//image(player, cellX, cellY); Somehow this yields a null pointer exception wth
 							}
 
 					cellX += cellWidth;
