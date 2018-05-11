@@ -22,7 +22,7 @@ public class DrawingSurface extends PApplet {
 		board = new GridView();
 
 		
-		music = new AudioClip(Paths.get("music/tibdawn.mp3").toUri().toString());
+		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
 
 	}
 	
