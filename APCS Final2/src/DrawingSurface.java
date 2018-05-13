@@ -49,7 +49,7 @@ public class DrawingSurface extends PApplet {
 		playerTest = new Player(board);
 
 		
-		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
+		music = new AudioClip(Paths.get("music/halo3.mp3").toUri().toString());
 
 	}
 	
@@ -77,7 +77,7 @@ public class DrawingSurface extends PApplet {
 
 		
 		background(255);   // Clear the screen with a white background
-		fill(0);
+		//fill(0);
 		textAlign(LEFT);
 		textSize(12);
 		

@@ -28,7 +28,12 @@ public class Player
 		int[][] moveIndex = {{x-1, y-1},{x-1, y},{x-1, y+1},
 	            {x, y-1},/*(Cell @ x,y)*/{x, y+1},
 	            {x+1, y-1},{x+1, y},{x+1, y+1}};
-		if (playerGrid.getCords(x-1, y)==0)
+		
+		if (y - 1 < 0) {
+			return false;
+		}
+		
+		if (playerGrid.getCords(x, y-1) == 0)
 		{
 //			System.out.println("true");
 			return true;
@@ -51,7 +56,11 @@ public class Player
 	            {x, y-1},/*(Cell @ x,y)*/{x, y+1},
 	            {x+1, y-1},{x+1, y},{x+1, y+1}};
 		
-		if (playerGrid.getCords(x+1, y)==0)
+		if (y+1 > (playerGrid.getDim() - 1)) {
+			return false;
+		}
+		
+		if (playerGrid.getCords(x, y + 1)==0)
 		{
 			return true;
 		}
@@ -72,13 +81,12 @@ public class Player
 		
 		
 		
-		if (x>playerGrid.getDim()-2||x<0)
-		{
+		if (x + 1 > (playerGrid.getDim() - 1)) {
 			return false;
 		}
 		
 		
-		else if (playerGrid.getCords(x, y+1)==0)
+		else if (playerGrid.getCords(x + 1, y)==0)
 		{
 			return true;
 		}
@@ -102,7 +110,11 @@ public class Player
 	            {x, y-1},/*(Cell @ x,y)*/{x, y+1},
 	            {x+1, y-1},{x+1, y},{x+1, y+1}};
 		
-		if (playerGrid.getCords(x, y-1)==0)
+		if (x - 1 < 0) {
+			return false;
+		}
+		
+		if (playerGrid.getCords(x - 1, y) == 0)
 		{
 			return true;
 		}
@@ -119,7 +131,7 @@ public class Player
 	public void moveUp (int x, int y)
 	{
 		
-		if (canMoveUp(x,y) ==true)
+		if (canMoveUp(x,y) == true)
 		{
 			playerGrid.setState(x, y, 0);
 			playerGrid.setState(x, y-1, 3);
@@ -131,7 +143,7 @@ public class Player
 	public void moveDown (int x, int y)
 	{
 		
-		if (canMoveUp(x,y) ==true)
+		if (canMoveDown(x,y) == true)
 		{
 			playerGrid.setState(x, y, 0);
 			playerGrid.setState(x, y+1, 3);
@@ -141,28 +153,24 @@ public class Player
 	}
 	public void moveRight (int x, int y)
 	{
-		if (canMoveRight(x,y) ==true)
+		if (canMoveRight(x,y) == true)
 		{
-		
-			if (canMoveUp(x,y) ==true)
-			{
+
 				playerGrid.setState(x, y, 0);
 				playerGrid.setState(x+1, y, 3);
 				
-			}
+			
 		}
 
 	}
 	public void moveLeft (int x, int y)
 	{
-		if (canMoveLeft(x,y) ==true)
-		{
-			if (canMoveUp(x,y) ==true)
+
+			if (canMoveLeft(x,y) == true)
 			{
 				playerGrid.setState(x, y, 0);
 				playerGrid.setState(x-1, y, 3);
 				
-			}
 		}
 		
 

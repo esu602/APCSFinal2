@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import processing.core.PApplet;
-
+import java.util.ArrayList;
 /**
  * 
  * 
@@ -18,8 +18,10 @@ import processing.core.PApplet;
  */
 public class Grid {
 	
-	private int p1Grid[][];
+	private int p1Grid[][]; //rename this once we're close to finishing
 	private int dim;
+	
+	private ArrayList<int[][]> grids;
 
 	// Constructs an empty grid
 	public Grid() {
@@ -32,6 +34,9 @@ public class Grid {
 			}
 				
 		}
+		
+		grids = new ArrayList<int[][]>();
+		grids.add(p1Grid);
 	}
 	// Constructs the grid defined in the file specified
 	/*public GridGame(String filename) {
@@ -64,7 +69,7 @@ public class Grid {
 		
 		float cellWidth = width / p1Grid.length;
 		float cellHeight = height / p1Grid[0].length;
-		marker.stroke(0);
+		//marker.stroke(0);
 		
 	
 //		marker.fill(255,255,255);
@@ -76,6 +81,7 @@ public class Grid {
 					
 					cellX = x + i*cellWidth;
 					cellY = y + j*cellHeight;
+					marker.pushStyle();
 					
 					if (p1Grid[i][j] == 0) {//if it's empty, it'll be white
 						
@@ -99,12 +105,14 @@ public class Grid {
 					marker.rect(cellX, cellY, cellWidth, cellHeight);
 					cellX += cellWidth;
 					
+					marker.popStyle();
+					
 				}
 				
 				
 				cellX = x;
 				cellY += cellHeight;
-				
+
 				
 			}
 			

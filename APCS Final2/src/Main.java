@@ -28,6 +28,7 @@ public class Main {
 		window.setResizable(true);
 
 		window.setVisible(true);
+		window.setTitle("New GridWorld");
 		canvas.requestFocus();
 		
 	}
