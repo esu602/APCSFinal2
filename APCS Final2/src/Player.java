@@ -14,6 +14,8 @@ public class Player
 	private Grid playerGrid;
 	private int health=90;
 	
+	public boolean inCombat;
+	
 	public Player(Grid grid) {
 		playerGrid = grid;
 	}

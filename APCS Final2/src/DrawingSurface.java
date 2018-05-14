@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.nio.file.Paths;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 /**
  * 
@@ -23,13 +24,15 @@ public class DrawingSurface extends PApplet {
 	
 	private Player playerTest;
 	
+	private PImage playerImg;
+	
 	private int X,Y;
 	
 	private int healthX, healthY;
 	private int decreaseHealthX, decreaseHealthY;
 	
 	private AudioClip music;
-	boolean isPlaying = false;
+
 	
 	
 	
@@ -49,15 +52,18 @@ public class DrawingSurface extends PApplet {
 		playerTest = new Player(board);
 
 		
-		music = new AudioClip(Paths.get("music/halo3.mp3").toUri().toString());
-
+		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
+		music.play();
 	}
 	
 	// The statements in the setup() function 
 	// execute once when the program begins
 	public void setup() {
 		
-		
+		System.out.println("this is the setup method");
+
+		playerImg = loadImage("sprites/bug.gif");
+		playerImg.resize(height/board.getDim(), height/board.getDim());
 		//size(0,0,PApplet.P3D);
 	}
 	
@@ -67,12 +73,12 @@ public class DrawingSurface extends PApplet {
 	// line is executed again.
 	public void draw() { 
 			
-		if (!isPlaying) {
-			music.play();
-//			System.out.println("hi");
-			isPlaying = true;
+		if (!music.isPlaying()) {
 			
-			music.setCycleCount(AudioClip.INDEFINITE); //menu music will infinite loop
+			if (board != null) {
+				playMusic("random");
+			}
+			
 		}
 
 		
@@ -200,8 +206,27 @@ public class DrawingSurface extends PApplet {
 		  
 	}
 	
+	public void playMusic(String filename) {
+		if (filename.equals("random")) {
+			double d = Math.random();
+			System.out.println(d);
+			if (d < 0.3) {
+				filename = "halo3";
+			}
+			else if (d < 0.6) {
+				filename = "tibdawn";
+			}
+			else {
+				filename = "menu";
+			}
+		}
+		music = new AudioClip(Paths.get("music/" + filename + ".mp3").toUri().toString());
+		music.play();
+	}
 
-	
+	public PImage getPlayerImage() {
+		return playerImg;
+	}
 }
 
 

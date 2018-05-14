@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * @author David Dominique, Evan Su
  *@version 5/9/18
  */
-public class Grid {
+public class Grid extends PApplet{
 	
 	private int p1Grid[][]; //rename this once we're close to finishing
 	private int dim;
@@ -63,7 +63,7 @@ public class Grid {
 	
 	//Idea, each value of a cell contains a certain state, enemy is 1, vendor is 2, player is 3 ect. Change color (for now) accordingly to movement
 	//Empty space is 0, when creating map code this segment and return values of each cell via for loops 
-	public void draw(PApplet marker, float x, float y, float width, float height) {
+	public void draw(DrawingSurface marker, float x, float y, float width, float height) {
 		float cellX = x;
 		float cellY = y;
 		
@@ -100,6 +100,8 @@ public class Grid {
 					else if (p1Grid[i][j]==3)
 					{
 						marker.fill(169,5,250);
+						//image(marker.getPlayerImage(), cellX, cellY);
+						
 					}
 					
 					marker.rect(cellX, cellY, cellWidth, cellHeight);
