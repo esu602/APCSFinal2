@@ -1,8 +1,4 @@
 import java.awt.Point;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
 
 import processing.core.PApplet;
 import java.util.ArrayList;
@@ -170,17 +166,13 @@ public class Grid extends PApplet{
 	
 	
 	//change to get state later
-	public int getCords(int x, int y)
-	{		
-//		System.out.println(p1Grid[x][y]);
-
+	public int getState(int x, int y){
 		return p1Grid[x][y];
 	}
 	
 	public void setState(int x, int y, int state)
 	{
 		p1Grid[x][y]= state;
-//		System.out.println(x + "," + y + "," + state);
 	}
 	
 	public int getDim()
@@ -189,6 +181,13 @@ public class Grid extends PApplet{
 	}
 	
 
+	public int getGridWidth() {
+		return p1Grid.length;
+	}
+	
+	public int getGridHeight() {
+		return p1Grid[0].length;
+	}
 	
 	
 	
