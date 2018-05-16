@@ -1,7 +1,5 @@
 package dom_su.actor;
 
-import dom_su.combat.AttackItem;
-import dom_su.combat.DefendItem;
 import dom_su.gui.Grid;
 
 /**
@@ -37,7 +35,7 @@ public class Player extends Actor {
 	public static final int DEFAULT_HEALTH_DECREASE = -5;
 
 	
-	
+	private int xp;
 	
 	
 	// CONSTRUCTORS
@@ -50,6 +48,16 @@ public class Player extends Actor {
 	 */
 	public Player(Grid grid, int xInitial, int yInitial) {
 		super(grid, xInitial, yInitial, DEFAULT_HEALTH_START, Grid.STATE_PLAYER);
+		
+		xp = 0;
+	}
+	
+	public void setXP(int XP) {
+		xp = XP;
+	}
+	
+	public int getXP() {
+		return xp;
 	}
 	
 	
