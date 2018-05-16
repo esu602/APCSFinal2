@@ -3,7 +3,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import dom_su.combat.AttackItem;
+import dom_su.combat.DefendItem;
 import dom_su.combat.Knife;
+import dom_su.combat.Parry;
 import dom_su.combat.Shield;
 import dom_su.combat.SpecialAttack;
 import dom_su.combat.Sword;
@@ -33,6 +35,8 @@ public class Enemy extends Actor {
 	public static final int DEFAULT_HEALTH_DECREASE = -5;
 	
 	
+	private int timer;
+	
 	/**
 	 * Creates a <code>Enemy</code> on a {@link Grid}.
 	 * 
@@ -42,6 +46,7 @@ public class Enemy extends Actor {
 	public Enemy(Grid grid, int xInitial, int yInitial, int startingHealth) {
 		super(grid, xInitial, yInitial, startingHealth, Grid.STATE_ENEMY);
 		
+		timer = 0;
 	}
 
 	// Must have enough action points
@@ -99,9 +104,92 @@ public class Enemy extends Actor {
 		setWeapon(item);
 	}
 	
+	/**
+	 * The enemy must be able to afford one of the available defenses.
+	 */
 	public void setEnemyDefense() {
+		int ap = getNumActionPoints();
+		int health = getHealth();
 		
-		// TODO create algorithm
-		setDefense(new Shield());
+		DefendItem item = new Shield();
+		if (health > 50) {
+			item = Math.random() > .5 ? new Shield() : new Parry();
+		} else {
+			item = Math.random() > .2 ? new Shield() : new Parry();
+		}
+		
+		if(item instanceof Parry) {
+			if (ap <  Parry.COST) {
+				item = new Shield();
+			}
+		}
+		
+		setDefense(item);
+	}
+	
+	public void act(Player p) {
+		if (timer >= 1) {
+			int pX = p.getX();
+			int pY = p.getY();
+			
+			int eX = getX();
+			int eY = getY();
+			
+			int dY = pY - eY;
+			int dX = pX - eX;
+			int absDY = Math.abs(dY);
+			int absDX = Math.abs(dX);
+			
+			int moveByY = 0;
+			if(absDY != 0) {
+				moveByY = dY/absDY;
+			}
+			int moveToY = eY + moveByY;
+			
+			int moveByX = 0;
+			if(absDX != 0) {
+				moveByX = dX/absDX;
+			}
+			int moveToX = eX + moveByX;
+			
+			if(absDY > absDX) {
+				//Better to move along Y
+				if (canMoveTo(eX, moveToY)) {
+					moveTo(eX, moveToY);
+				} else if (canMoveTo(moveToX, eY)) {
+					moveTo(moveToX, eY);
+				}	// else DO NOT MOVE
+			} else if(absDY < absDX) {
+				//Better to move along X
+				if (canMoveTo(moveToX, eY)) {
+					moveTo(moveToX, eY);
+				} else if (canMoveTo(eX, moveToY)) {
+					moveTo(eX, moveToY);
+				}	// else DO NOT MOVE
+			} else {
+				// absDY == absDX
+				boolean moveAlongX = Math.random() > .5 ? true : false;
+				
+				if (moveAlongX) {
+					if (canMoveTo(moveToX, eY)) {
+						moveTo(moveToX, eY);
+					} else if (canMoveTo(eX, moveToY)) {
+						moveTo(eX, moveToY);
+					}	// else DO NOT MOVE
+				} else {
+					if (canMoveTo(eX, moveToY)) {
+						moveTo(eX, moveToY);
+					} else if (canMoveTo(moveToX, eY)) {
+						moveTo(moveToX, eY);
+					}	// else DO NOT MOVE
+				}
+			}
+			
+			timer = 0;
+		} else {
+			timer++;
+		}
+		
+		
 	}
 }

@@ -88,7 +88,6 @@ public class Grid {
 				if (p1Grid[i][j] == STATE_EMPTY) {			// if it's empty, it'll be white
 					marker.fill(255, 255, 255);
 				} else if (p1Grid[i][j] == STATE_ENEMY) {		// if it contains an enemy, it'll be cyan
-					System.out.println(i +","+j);
 					marker.fill(0, 255, 255);
 				} else if (p1Grid[i][j] == STATE_VENDOR) {		// if it contains a vendor, it'll be red
 					marker.fill(255, 0, 0);

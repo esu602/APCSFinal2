@@ -26,7 +26,7 @@ import processing.core.PImage;
 public class DrawingSurface extends PApplet {
 
 	public static final int STAGE_MENU 		= 0;
-	public static final int STAGE_MAP 	= 1;
+	public static final int STAGE_MAP 		= 1;
 	public static final int STAGE_END		= 2;
 	public static final int STAGE_COMBAT	= 3;
 	
@@ -56,10 +56,11 @@ public class DrawingSurface extends PApplet {
 		decreaseHealthX = width + 1125;
 		decreaseHealthY = height - 10;
 
-		playerTest = new Player(board, 5, 5);
+		playerTest = new Player(board, 15, 15);
 		enemies = new ArrayList<Enemy>();
 		enemies.add(new Enemy(board, 3, 4, 100));
 		enemies.add(new Enemy(board, 5, 6, 100));
+		enemies.add(new Enemy(board, 0, 5, 100));
 
 		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
 		music.play();
@@ -122,7 +123,7 @@ public class DrawingSurface extends PApplet {
 			}
 		} else if (stage == STAGE_MAP) {
 			//SETUP MAP SCREEN
-			background(255,255,255);
+			background(255, 255, 255);
 			fill(0);
 			textAlign(LEFT);
 			textSize(12);
@@ -175,10 +176,6 @@ public class DrawingSurface extends PApplet {
 			textSize(28);
 			text("PlayerHealth " +playerTest.getHealth() ,1000,800);
 		}
-		
-		if (keyPressed) {
-			
-		}
 
 	}
 
@@ -192,24 +189,44 @@ public class DrawingSurface extends PApplet {
 		// HANDLE PLAYER MOVEMENT
 		int toX = playerTest.getX();
 		int toY = playerTest.getY();
+		boolean enemiesAct = false;
 		if (keyCode == KeyEvent.VK_W) {
+			enemiesAct = true;
 			toY--;
 		} else if (keyCode == KeyEvent.VK_A) {
+			enemiesAct = true;
 			toX--;
 		} else if (keyCode == KeyEvent.VK_S) {
+			enemiesAct = true;
 			toY++;
 		} else if (keyCode == KeyEvent.VK_D) {
+			enemiesAct = true;
 			toX++;
 		}
 		
-		if(playerTest.canMoveTo(toX, toY)) {
-			int previousState = playerTest.moveTo(toX, toY);
-			if (previousState == Grid.STATE_ENEMY) {
-				stage = STAGE_COMBAT;
+		// Ensure nothing occurs when not on stage map
+		if (stage == STAGE_MAP && enemiesAct) {
+			
+			// TODO set act method of enemies
+			for (Enemy e : enemies) {
+				e.act(playerTest);
 			}
-		} else {
+			
+			// Must be called after enemies act
+			if (board.getState(playerTest.getX(), playerTest.getY()) == Grid.STATE_ENEMY) {
+				stage = STAGE_COMBAT;
+			} else {
+				if(playerTest.canMoveTo(toX, toY)) {
+					int previousState = playerTest.moveTo(toX, toY);
+					if (previousState == Grid.STATE_ENEMY) {
+						stage = STAGE_COMBAT;
+					}
+				} // else NOTHING OCCURS
+			}
+			
 			
 		}
+		
 
 	}
 
@@ -234,7 +251,6 @@ public class DrawingSurface extends PApplet {
 	public void playMusic(String filename) {
 		if (filename.equals("random")) {
 			double d = Math.random();
-			System.out.println(d);
 			if (d < 0.3) {
 				filename = "halo3";
 			} else if (d < 0.6) {

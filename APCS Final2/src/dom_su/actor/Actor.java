@@ -50,8 +50,8 @@ public class Actor {
 	 *            negative y-axis.
 	 */
 	public void moveBy(int xAmt, int yAmt) {
-		g.setState(x, y, 0);
-		g.setState(x + xAmt, y + yAmt, 3);
+		g.setState(x, y, Grid.STATE_EMPTY);
+		g.setState(x + xAmt, y + yAmt, state);
 		x += xAmt;
 		y += yAmt;
 	}
@@ -68,8 +68,8 @@ public class Actor {
 	 */
 	public int moveTo(int xTo, int yTo) {
 		int previousState = g.getState(xTo, yTo);
-		g.setState(x, y, 0);
-		g.setState(xTo, yTo, 3);
+		g.setState(x, y, Grid.STATE_EMPTY);
+		g.setState(xTo, yTo, state);
 		x = xTo;
 		y = yTo;
 		return previousState;
@@ -93,12 +93,15 @@ public class Actor {
 		int gridW = g.getGridWidth();
 		int gridH = g.getGridHeight();
 
-		int toState = g.getState(xTo, yTo);
-
-		if (state == toState) {
-			return false;
+		boolean inBounds = xTo >= 0 && yTo >= 0 && xTo <= (gridW - 1) && yTo <= (gridH - 1);
+		if (inBounds) {
+			if (state == g.getState(xTo, yTo)) {
+				return false;
+			} else {
+				return true;
+			}
 		} else {
-			return xTo >= 0 && yTo >= 0 && xTo <= (gridW - 1) && yTo <= (gridH - 1);
+			return false;
 		}
 
 	}
@@ -197,7 +200,7 @@ public class Actor {
 	 *            The x-coordinate to set the <code>Actor</code> to.
 	 */
 	public void setX(int x) {
-		g.setState(this.x, this.y, 0); // Sets current location to state=0
+		g.setState(this.x, this.y, Grid.STATE_EMPTY); // Sets current location to state=0
 		g.setState(x, this.y, state); // Sets location to move to, to state=3
 		this.x = x;
 	}
@@ -210,7 +213,7 @@ public class Actor {
 	 *            The y-coordinate to set the <code>Actor</code> to.
 	 */
 	public void setY(int y) {
-		g.setState(this.x, this.y, 0); // Sets current location to state=0
+		g.setState(this.x, this.y, Grid.STATE_EMPTY); // Sets current location to state=0
 		g.setState(this.x, y, state); // Sets location to move to, to state=3
 		this.y = y;
 	}
