@@ -1,5 +1,7 @@
 package dom_su.actor;
 
+import dom_su.combat.AttackItem;
+import dom_su.combat.DefendItem;
 import dom_su.gui.Grid;
 
 /**
@@ -34,6 +36,10 @@ public class Player extends Actor {
 	 */
 	public static final int DEFAULT_HEALTH_DECREASE = -5;
 
+	
+	
+	
+	
 	// CONSTRUCTORS
 
 	/**
@@ -43,6 +49,8 @@ public class Player extends Actor {
 	 *            The {@link Grid} which the <code>Player</code> is on.
 	 */
 	public Player(Grid grid, int xInitial, int yInitial) {
-		super(grid, xInitial, yInitial, DEFAULT_HEALTH_START);
+		super(grid, xInitial, yInitial, DEFAULT_HEALTH_START, Grid.STATE_PLAYER);
 	}
+	
+	
 }

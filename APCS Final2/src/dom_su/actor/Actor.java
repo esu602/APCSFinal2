@@ -1,5 +1,7 @@
 package dom_su.actor;
 
+import dom_su.combat.AttackItem;
+import dom_su.combat.DefendItem;
 import dom_su.gui.Grid;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -7,15 +9,22 @@ import processing.core.PImage;
 public class Actor {
 
 	private Grid g;
+	private int state;
 	private int x, y; // Location of the Actor on the Grid
 
 	private int health;
 
 	private PImage actorImg;
 
-	public Actor(Grid grid, int xInitial, int yInitial, int startingHealth) {
-		g = grid; // This must be set before any setX() or setY() can be called
+	private int actionPoints;
 
+	private AttackItem weapon;
+	private DefendItem defend;
+
+	public Actor(Grid grid, int xInitial, int yInitial, int startingHealth, int state) {
+		g = grid; // This must be set before any setX() or setY() can be called
+		this.state = state;
+		
 		x = xInitial;
 		y = yInitial;
 		setX(x);
@@ -54,12 +63,16 @@ public class Actor {
 	 *            The x-coordinate to set the <code>Actor</code> to.
 	 * @param yTo
 	 *            The y-coordinate to set the <code>Actor</code> to.
+	 * 
+	 * @return The state the <code>Actor</code> moves to.
 	 */
-	public void moveTo(int xTo, int yTo) {
+	public int moveTo(int xTo, int yTo) {
+		int previousState = g.getState(xTo, yTo);
 		g.setState(x, y, 0);
 		g.setState(xTo, yTo, 3);
 		x = xTo;
 		y = yTo;
+		return previousState;
 	}
 
 	/**
@@ -80,7 +93,14 @@ public class Actor {
 		int gridW = g.getGridWidth();
 		int gridH = g.getGridHeight();
 
-		return xTo >= 0 && yTo >= 0 && xTo <= (gridW - 1) && yTo <= (gridH - 1) && g.getState(xTo, yTo) == 0;
+		int toState = g.getState(xTo, yTo);
+
+		if (state == toState) {
+			return false;
+		} else {
+			return xTo >= 0 && yTo >= 0 && xTo <= (gridW - 1) && yTo <= (gridH - 1);
+		}
+
 	}
 
 	/**
@@ -155,6 +175,18 @@ public class Actor {
 		return actorImg;
 	}
 
+	public int getNumActionPoints() {
+		return actionPoints;
+	}
+
+	public AttackItem getWeapon() {
+		return weapon;
+	}
+
+	public DefendItem getDefense() {
+		return defend;
+	}
+
 	// SETTERS
 
 	/**
@@ -166,7 +198,7 @@ public class Actor {
 	 */
 	public void setX(int x) {
 		g.setState(this.x, this.y, 0); // Sets current location to state=0
-		g.setState(x, this.y, 3); // Sets location to move to, to state=3
+		g.setState(x, this.y, state); // Sets location to move to, to state=3
 		this.x = x;
 	}
 
@@ -179,7 +211,7 @@ public class Actor {
 	 */
 	public void setY(int y) {
 		g.setState(this.x, this.y, 0); // Sets current location to state=0
-		g.setState(this.x, y, 3); // Sets location to move to, to state=3
+		g.setState(this.x, y, state); // Sets location to move to, to state=3
 		this.y = y;
 	}
 
@@ -227,5 +259,24 @@ public class Actor {
 	 */
 	public void setImage(String filepath, PApplet scope) {
 		actorImg = scope.loadImage(filepath);
+	}
+
+	public void setNumActionPoints(int num) {
+		actionPoints = num;
+	}
+
+	public boolean decreaseActionPoints(int amount) {
+		actionPoints -= amount;
+		boolean invalid = actionPoints < 0;
+		actionPoints = Math.min(0, actionPoints);
+		return invalid;
+	}
+
+	public void setWeapon(AttackItem item) {
+		weapon = item;
+	}
+
+	public void setDefense(DefendItem item) {
+		defend = item;
 	}
 }

@@ -1,4 +1,12 @@
 package dom_su.actor;
+import java.util.ArrayList;
+import java.util.Collections;
+
+import dom_su.combat.AttackItem;
+import dom_su.combat.Knife;
+import dom_su.combat.Shield;
+import dom_su.combat.SpecialAttack;
+import dom_su.combat.Sword;
 import dom_su.gui.Grid;
 
 //represents an enemy
@@ -32,8 +40,68 @@ public class Enemy extends Actor {
 	 *            The {@link Grid} which the <code>Enemy</code> is on.
 	 */
 	public Enemy(Grid grid, int xInitial, int yInitial, int startingHealth) {
-		super(grid, xInitial, yInitial, startingHealth);
+		super(grid, xInitial, yInitial, startingHealth, Grid.STATE_ENEMY);
+		
 	}
 
+	// Must have enough action points
+	public void setEnemyWeapon(Player opponent) {
+		int actionPoints = getNumActionPoints();
+		int opHealth = opponent.getHealth();
+		
+		// Influence weapon selection
+		// TODO set these values based on max health
+		int barSpecial = 70;
+		int barSword = 45;
+		int barKnife = 20;
+		
+		double difSpecialSq 	= Math.pow( Math.abs(opHealth - barSpecial)	, 2)*Math.random();
+		double difSwordSq 		= Math.pow( Math.abs(opHealth - barSword)	, 2)*Math.random();
+		double difKnifeSq 		= Math.pow( Math.abs(opHealth - barKnife)	, 2)*Math.random();
+		
+		ArrayList<Double> difSqs = new ArrayList<Double>();
+		difSqs.add(difSpecialSq);
+		difSqs.add(difSwordSq);
+		difSqs.add(difKnifeSq);
+		Collections.sort(difSqs);
+		
+		AttackItem item = new Knife();
+		for(int i = 0; i < difSqs.size(); i++) {
+			double value = difSqs.get(i);
+			
+			// CHOOSE SPECIAL ATTACK
+			if (Math.abs(value - difSpecialSq) < 0.000001) {
+				if (actionPoints >= SpecialAttack.COST) {
+					item = new SpecialAttack();
+					break;
+				} else {
+					continue;
+				}
+			}
+			
+			// CHOOSE SWORD
+			if (Math.abs(value - difSwordSq) < 0.000001) {
+				if (actionPoints >= Sword.COST) {
+					item = new Sword();
+					break;
+				} else {
+					continue;
+				}
+			}
+			
+			// CHOOSE KNIFE
+			if (Math.abs(value - difKnifeSq) < 0.000001) {
+				item = new Knife();
+				break;
+			}
+		}
+		
+		setWeapon(item);
+	}
 	
+	public void setEnemyDefense() {
+		
+		// TODO create algorithm
+		setDefense(new Shield());
+	}
 }
