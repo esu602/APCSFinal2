@@ -4,6 +4,7 @@ import javafx.scene.media.*;
 
 import java.awt.event.KeyEvent;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 import dom_su.actor.Enemy;
 import dom_su.actor.Player;
@@ -25,8 +26,9 @@ import processing.core.PImage;
 public class DrawingSurface extends PApplet {
 
 	public static final int STAGE_MENU 		= 0;
-	public static final int STAGE_BATTLE 	= 1;
+	public static final int STAGE_MAP 	= 1;
 	public static final int STAGE_END		= 2;
+	public static final int STAGE_COMBAT	= 3;
 	
 	private PImage menuScreen, battleScreen, endScreen;
 	private int stage;
@@ -34,7 +36,7 @@ public class DrawingSurface extends PApplet {
 	private Grid board;
 
 	private Player playerTest;
-	private Enemy enemy;
+	private ArrayList<Enemy> enemies;
 
 
 	// This should be kept in Player
@@ -55,7 +57,9 @@ public class DrawingSurface extends PApplet {
 		decreaseHealthY = height - 10;
 
 		playerTest = new Player(board, 5, 5);
-		//enemy = new Enemy(board);
+		enemies = new ArrayList<Enemy>();
+		enemies.add(new Enemy(board, 3, 4, 100));
+		enemies.add(new Enemy(board, 5, 6, 100));
 
 		music = new AudioClip(Paths.get("music/menu.mp3").toUri().toString());
 		music.play();
@@ -66,6 +70,16 @@ public class DrawingSurface extends PApplet {
 	
 	public Player getPlayer() {
 		return playerTest;
+	}
+	
+	public Enemy getEnemy(int x, int y) {
+		for(Enemy e : enemies) {
+			if(e.getX() == x && e.getY() == y) {
+				return e;
+			}
+		}
+		
+		return null;
 	}
 	
 
@@ -79,6 +93,9 @@ public class DrawingSurface extends PApplet {
 		
 		String spritePath = "images" + Main.FILE_SEPARATOR + "sprites" + Main.FILE_SEPARATOR;
 		playerTest.setImage(loadImage(spritePath + "sprite_player.png"));
+		for(Enemy e: enemies) {
+			e.setImage(loadImage(spritePath + "sprite_enemy.png"));
+		}
 	}
 
 	// The statements in draw() are executed until the
@@ -101,10 +118,10 @@ public class DrawingSurface extends PApplet {
 			m.draw(this);
 			
 			if (m.playGame()) {
-				stage = STAGE_BATTLE;
+				stage = STAGE_MAP;
 			}
-		} else if (stage == STAGE_BATTLE) {
-			//SETUP BATTLE SCREEN
+		} else if (stage == STAGE_MAP) {
+			//SETUP MAP SCREEN
 			background(255,255,255);
 			fill(0);
 			textAlign(LEFT);
@@ -150,6 +167,13 @@ public class DrawingSurface extends PApplet {
 			rect(healthX + 150, healthY + 525, 50, 50);
 		} else if (stage == STAGE_END) {
 			image(endScreen, 0, 0, width, height);
+		} else if (stage == STAGE_COMBAT) {
+			image(battleScreen, 0, 0, width, height);
+			image(playerTest.getImage(), width / 2 - 500, height / 2 - 100, 250, 250);
+			image(enemies.get(0).getImage(), width / 2 + 300, height / 2 - 310, 300, 300);
+			
+			textSize(28);
+			text("PlayerHealth " +playerTest.getHealth() ,1000,800);
 		}
 		
 		if (keyPressed) {
@@ -162,7 +186,7 @@ public class DrawingSurface extends PApplet {
 
 		// MENU CONTROL
 		if(stage == STAGE_MENU && keyCode == KeyEvent.VK_ENTER) {
-			stage = STAGE_BATTLE;
+			stage = STAGE_MAP;
 		}
 		
 		// HANDLE PLAYER MOVEMENT
@@ -179,7 +203,12 @@ public class DrawingSurface extends PApplet {
 		}
 		
 		if(playerTest.canMoveTo(toX, toY)) {
-			playerTest.moveTo(toX, toY);
+			int previousState = playerTest.moveTo(toX, toY);
+			if (previousState == Grid.STATE_ENEMY) {
+				stage = STAGE_COMBAT;
+			}
+		} else {
+			
 		}
 
 	}

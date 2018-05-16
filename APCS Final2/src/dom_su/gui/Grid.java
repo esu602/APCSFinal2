@@ -17,6 +17,12 @@ import java.util.ArrayList;
  */
 public class Grid {
 
+	public static final int STATE_EMPTY 	= 0;
+	public static final int STATE_ENEMY 	= 1;
+	public static final int STATE_VENDOR 	= 2;
+	public static final int STATE_PLAYER 	= 3;
+	public static final int STATE_DOOR 		= 4;
+	
 	private int p1Grid[][]; // rename this once we're close to finishing
 	private int dim;
 
@@ -79,19 +85,22 @@ public class Grid {
 				cellY = y + j * cellHeight;
 				marker.pushStyle();
 
-				if (p1Grid[i][j] == 0) {			// if it's empty, it'll be white
+				if (p1Grid[i][j] == STATE_EMPTY) {			// if it's empty, it'll be white
 					marker.fill(255, 255, 255);
-				} else if (p1Grid[i][j] == 1) {		// if it contains an enemy, it'll be cyan
+				} else if (p1Grid[i][j] == STATE_ENEMY) {		// if it contains an enemy, it'll be cyan
+					System.out.println(i +","+j);
 					marker.fill(0, 255, 255);
-				} else if (p1Grid[i][j] == 2) {		// if it contains a vendor, it'll be red
+				} else if (p1Grid[i][j] == STATE_VENDOR) {		// if it contains a vendor, it'll be red
 					marker.fill(255, 0, 0);
-				} else if (p1Grid[i][j] == 3) {
-					marker.fill(169, 5, 250);
+				} else if (p1Grid[i][j] == STATE_PLAYER) {
+					marker.noFill();
 				}
 
 				marker.rect(cellX, cellY, cellWidth, cellHeight);
-				if (p1Grid[i][j] == 3) {
+				if (p1Grid[i][j] == STATE_PLAYER) {
 					marker.image(marker.getPlayer().getImage(), cellX, cellY, cellWidth, cellHeight);
+				} else if(p1Grid[i][j] == STATE_ENEMY) {
+					marker.image(marker.getEnemy(i, j).getImage(), cellX, cellY, cellWidth, cellHeight);
 				}
 				
 				cellX += cellWidth;
