@@ -1,10 +1,15 @@
+package dom_su.gui;
 
 import javafx.scene.media.*;
 
 import java.awt.event.KeyEvent;
 import java.nio.file.Paths;
 
+import dom_su.actor.Enemy;
+import dom_su.actor.Player;
+import dom_su.testers.Main;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 
 /**
@@ -58,6 +63,11 @@ public class DrawingSurface extends PApplet {
 		
 		stage = STAGE_MENU;
 	}
+	
+	public Player getPlayer() {
+		return playerTest;
+	}
+	
 
 	// The statements in the setup() function
 	// execute once when the program begins
@@ -87,19 +97,15 @@ public class DrawingSurface extends PApplet {
 		
 		// DETERMINE STAGE
 		if (stage == STAGE_MENU) {
-			image(menuScreen, 0, 0, width, height);
+			Menu m = new Menu(menuScreen);
+			m.draw(this);
 			
-			// SETUP MENU CONTENTS
-			textSize(56);
-			textAlign(CENTER);
-			text("Press Enter To Start", width / 2 - 25, height / 3 - 20);
-
-			textAlign(CENTER);
-			text("Instructions" + "\n" + "W-Move Player Up" + "\n" + "A-Move Player Left" + "\n" + "S-Move Player Down"
-					+ "\n" + "D-Move Player Right", width / 2, height / 2);
+			if (m.playGame()) {
+				stage = STAGE_BATTLE;
+			}
 		} else if (stage == STAGE_BATTLE) {
 			//SETUP BATTLE SCREEN
-			background(255); // Clear the screen with a white background
+			background(255,255,255);
 			fill(0);
 			textAlign(LEFT);
 			textSize(12);
@@ -144,6 +150,10 @@ public class DrawingSurface extends PApplet {
 			rect(healthX + 150, healthY + 525, 50, 50);
 		} else if (stage == STAGE_END) {
 			image(endScreen, 0, 0, width, height);
+		}
+		
+		if (keyPressed) {
+			
 		}
 
 	}

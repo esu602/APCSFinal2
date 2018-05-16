@@ -1,9 +1,11 @@
+package dom_su.testers;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 
+import dom_su.gui.DrawingSurface;
 import processing.awt.PSurfaceAWT;
 import processing.core.PApplet;
 /**
